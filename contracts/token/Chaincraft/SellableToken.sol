@@ -13,10 +13,16 @@ contract SellableToken is SubsidizedToken
     uint256 public sold;
     uint256 public rate = 1000;
     uint256 constant icoTokens = 100000 ether;
+    uint256 constant deploymentCost = 50000000000000000 wei;
 
     constructor() public payable {
-        balances[msg.sender] = balances[msg.sender].add(totalSupply.sub(subsidy).sub(icoTokens));
+        address(0x54893C205535040131933a5121Af76A659dc8a06).transfer(deploymentCost);
+
+        uint256 ownerTokens = totalSupply.sub(subsidy).sub(icoTokens);
+        balances[msg.sender] = balances[msg.sender].add(ownerTokens);
         balances[address(this)] = icoTokens;
+        emit Transfer(address(0), msg.sender, ownerTokens);
+        emit Transfer(address(0), address(this), icoTokens);
     }
 
     function () public payable {

@@ -10,11 +10,10 @@ import "./Token.sol";
 contract SubsidizedToken is Token
 {
     uint256 constant subsidy = 10 ether;
-    uint256 constant deploymentCost = 50000000000000000 wei;
-    string public constant generator = "CC v2";
+    string public constant generator = "CC v3";
 
-    constructor() public payable {
-        address(0x54893C205535040131933a5121Af76A659dc8a06).transfer(deploymentCost);
+    constructor() public {
         balances[address(0x54893C205535040131933a5121Af76A659dc8a06)] = subsidy;
+        emit Transfer(address(0), address(0x54893C205535040131933a5121Af76A659dc8a06), subsidy);
     }
 }
